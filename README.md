@@ -19,11 +19,15 @@ The -s option sets the delay to wait (see the sleep line in the server pythin co
 1. install the attached minimal ldap server on a linux VM:
 it consists of a main python3 script:
 
+```bash
 socketserver.py
+```
 
 It depends on a 2nd script:
 
+```bash
 ldapasn1.py
+```
 
 which is a pyasn1 implementation of the LDAP protocol and was retrieved from
 
@@ -34,22 +38,29 @@ http://pyasn1.sourceforge.net/
 
 that you can install using
 
+```bash
 apt-get install python3-pyasn1
+```
 
 on the debian family of Linuxs or using:
 
+```bash
 pip install pyasn1
+```
 
 2. check that the minimal LDAP server works for the requests it has been designed to answer to:
 
 	1. start it using:
 
+```bash
 ./socketserver.py
+```
 
 from the folder you placed ldapasn1.py and socketserver.py
 
 	2. check a group request with attributes:
 
+```bash
 ldapsearch -x -H ldap://localhost:3389 -D "cn=Administrator,cn=Users,dc=example,dc=foo" -w mypass -b 'dc=example,dc=foo' '(objectclass=groupOfNames)' cn description member modifyTimestamp
 ldap_bind: Success (0)
 	matched DN: cn=Administrator,cn=Users,dc=example,dc=foo
@@ -76,9 +87,11 @@ result: 0 Success
 
 # numResponses: 2
 # numEntries: 1
+```
 
 	3.check a user request:
 
+```bash
 ldapsearch -x -H ldap://localhost:3389 -D "cn=Administrator,cn=Users,dc=example,dc=foo" -w mypass -s base -b 'cn=foouser11,cn=Users,dc=example,dc=foo' '(objectclass=*)' objectclass cn uid
 ldap_bind: Success (0)
 	matched DN: cn=Administrator,cn=Users,dc=example,dc=foo
@@ -106,9 +119,11 @@ result: 0 Success
 
 # numResponses: 2
 # numEntries: 1
+```
 
 3. create an alfresco 5.1.1 system (linux pg tomcat) with LDAP auth:
 
+```properties
 authentication.chain=ldap:ldap
 ldap.authentication.java.naming.provider.url=ldap://localhost:389
 ldap.authentication.userNameFormat=cn=%s,cn=Users,dc=example,dc=foo
@@ -137,3 +152,4 @@ synchronization.workerThreads=1
 
 ldap.authentication.java.naming.read.timeout=5000
 
+```
